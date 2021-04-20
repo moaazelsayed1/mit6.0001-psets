@@ -10,8 +10,8 @@ def main():
     currunt_savings = 0.0
     number_of_months = 0
 
-    while (currunt_savings < target):
-        if (number_of_months % 6 == 0 and number_of_months != 0):
+    while currunt_savings < target:
+        if number_of_months % 6 == 0 and number_of_months != 0:
             monthly_savings += monthly_savings * salary_raise
         currunt_savings += monthly_savings + ((currunt_savings * 0.04) / 12)
         number_of_months += 1

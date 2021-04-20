@@ -9,7 +9,7 @@ def main():
     currunt_savings = 0.0
     number_of_months = 0
 
-    while (currunt_savings < target):
+    while currunt_savings < target:
         currunt_savings += monthly_savings + ((currunt_savings * 0.04) / 12)
         number_of_months += 1
 

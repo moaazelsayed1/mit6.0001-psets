@@ -20,7 +20,7 @@ def main():
         monthly_savings = (annual_salary / 12) * (ans / float(10000))
         currunt_savings = 0.0
         for i in range(1, 37):
-            if (i % 6 == 0):
+            if i % 6 == 0:
                 monthly_savings += monthly_savings * 0.07
             currunt_savings += monthly_savings + \
                 ((currunt_savings * 0.04) / 12)
