@@ -16,7 +16,7 @@ CONSONANTS = 'bcdfghjklmnpqrstvwxyz'
 HAND_SIZE = 7
 
 SCRABBLE_LETTER_VALUES = {
-    'a': 1, 'b': 3, 'c': 3, 'd': 2, 'e': 1, 'f': 4, 'g': 2, 'h': 4, 'i': 1, 'j': 8, 'k': 5, 'l': 1, 'm': 3, 'n': 1, 'o': 1, 'p': 3, 'q': 10, 'r': 1, 's': 1, 't': 1, 'u': 1, 'v': 4, 'w': 4, 'x': 8, 'y': 4, 'z': 10
+    'a': 1, 'b': 3, 'c': 3, 'd': 2, 'e': 1, 'f': 4, 'g': 2, 'h': 4, 'i': 1, 'j': 8, 'k': 5, 'l': 1, 'm': 3, 'n': 1, 'o': 1, 'p': 3, 'q': 10, 'r': 1, 's': 1, 't': 1, 'u': 1, 'v': 4, 'w': 4, 'x': 8, 'y': 4, 'z': 10, '*': 0
 }
 
 # -----------------------------------
@@ -93,7 +93,7 @@ def get_word_score(word, n):
     n: int >= 0
     returns: int >= 0
     """
-
+    word = word.lower()
     first = 0
     second = 7 * len(word) - 3*(n - len(word))
 
@@ -101,7 +101,7 @@ def get_word_score(word, n):
         second = 1
 
     for i in word:
-        first += SCRABBLE_LETTER_VALUES[i.lower()]
+        first += SCRABBLE_LETTER_VALUES[i]
 
     return first * second
 
@@ -186,7 +186,7 @@ def update_hand(hand, word):
     returns: dictionary (string -> int)
     """
     new_hand = hand.copy()
-    print(new_hand)
+    # print(new_hand)
 
     for i in word:
         i = i.lower()
@@ -215,21 +215,39 @@ def is_valid_word(word, hand, word_list):
     word_list: list of lowercase strings
     returns: boolean
     """
+    # print(word)
+    # print(hand)
+    wildcard = word.find("*")
     word = word.lower()
-    if word not in word_list:
-        word_list.pop(word)
-        return False
-
-    freq = {}
-    for i in word:
-        freq[i] = freq.get(i, 0) + 1
-
-    for x in freq:
-        if hand.get(x, 0) == 0 or freq[x] > hand[x]:
+    if wildcard == -1:
+        if word not in word_list:
+            # word_list.pop(word)
             return False
 
-    return True
+        freq = {}
+        for i in word:
+            freq[i] = freq.get(i, 0) + 1
 
+        for x in freq:
+            if hand.get(x, 0) == 0 or freq[x] > hand[x]:
+                return False
+
+        return True
+    else:
+        li = []
+        li[:0] = word
+        for x in VOWELS:
+            li[wildcard] = x
+            word = "".join(li)
+            hand_copy = hand.copy()
+            hand_copy.pop("*")
+            hand_copy[x] = hand_copy.get(x, 0) + 1
+            valid = is_valid_word(word, hand_copy, word_list)
+            if(valid):
+                # print(valid)
+                break
+    # print(valid)
+    return valid
 
 #
 # Problem #5: Playing a hand
@@ -385,4 +403,6 @@ def play_game(word_list):
 #
 if __name__ == '__main__':
     word_list = load_words()
+    is_valid_word("h*ney", {'n': 1, 'h': 1, '*': 1,
+                  'y': 1, 'd': 1, 'w': 1, 'e': 2}, word_list)
     play_game(word_list)
