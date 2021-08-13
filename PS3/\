@@ -261,12 +261,7 @@ def calculate_handlen(hand):
     hand: dictionary (string-> int)
     returns: integer
     """
-    length = 0
-    for x in hand:
-        if hand[x] != 0:
-            length += 1
-
-    return length
+    return hand.length()
 
 
 def play_hand(hand, word_list):
@@ -330,27 +325,17 @@ def play_hand(hand, word_list):
     # Return the total score as result of function
     score = 0
     while(True):
-        if calculate_handlen(hand) == 0:
-            print(f"Run out of letters.Total score: {score} points")
-            break
         print("Current Hand:", end=' ')
         display_hand(hand)
         word = input(
             "Enter word, or \"!!\" to indicate that you are finished: ")
         if word == "!!":
-            print(f"Total score: {score} points")
             break
 
         if is_valid_word(word, hand, word_list):
-            current_score = get_word_score(word, calculate_handlen(hand))
-            score += current_score
-            print(
-                f"\"{word}\" earned {current_score} points. Total: {score} points")
-            #hand = update_hand(hand, word)
-        else:
-            print("That is not a valid word. Please choose another word.")
-        print()
-        hand = update_hand(hand, word)
+            score += get_word_score(word, calculate_handlen(hand))
+
+#
 # Problem #6: Playing a game
 #
 
@@ -427,6 +412,5 @@ def play_game(word_list):
 #
 if __name__ == '__main__':
     word_list = load_words()
-    play_hand({'a': 1, 'c': 1, 'f': 1, 't': 1,
-              'x': 1, 'i': 1, '*': 1}, word_list)
+    play_hand({'a': 1, 'x': 2, 'l': 3, 'e': 1}, word_list)
     play_game(word_list)
