@@ -3,7 +3,7 @@
 # The 6.0001 Word Game
 # Created by: Kevin Luu <luuk> and Jenna Wiens <jwiens>
 #
-# Name          : <your name>
+# Name          : Moaaz Elsayed
 # Collaborators : <your collaborators>
 # Time spent    : <total time>
 
