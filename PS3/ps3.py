@@ -298,36 +298,6 @@ def play_hand(hand, word_list):
       returns: the total score for the hand
 
     """
-
-    # BEGIN PSEUDOCODE <-- Remove this comment when you implement this function
-    # Keep track of the total score
-
-    # As long as there are still letters left in the hand:
-
-    # Display the hand
-
-    # Ask user for input
-
-    # If the input is two exclamation points:
-
-    # End the game (break out of the loop)
-
-    # Otherwise (the input is not two exclamation points):
-
-    # If the word is valid:
-
-    # Tell the user how many points the word earned,
-    # and the updated total score
-
-    # Otherwise (the word is not valid):
-    # Reject invalid word (print a message)
-
-    # update the user's hand by removing the letters of their inputted word
-
-    # Game is over (user entered '!!' or ran out of letters),
-    # so tell user the total score
-
-    # Return the total score as result of function
     score = 0
     while(True):
         if calculate_handlen(hand) == 0:
@@ -381,8 +351,19 @@ def substitute_hand(hand, letter):
     letter: string
     returns: dictionary (string -> int)
     """
+    if letter not in hand:
+        return hand
+    hand_copy = hand.copy()
+    occurrence = hand[letter]
+    del hand_copy[letter]
 
-    pass  # TO DO... Remove this line when you implement this function
+    x = random.choice(VOWELS + CONSONANTS)
+    while x in hand:
+        x = random.choice(VOWELS + CONSONANTS)
+    hand_copy[x] = occurrence
+    display_hand(hand_copy)
+
+    return hand_copy
 
 
 def play_game(word_list):
@@ -427,6 +408,5 @@ def play_game(word_list):
 #
 if __name__ == '__main__':
     word_list = load_words()
-    play_hand({'a': 1, 'c': 1, 'f': 1, 't': 1,
-              'x': 1, 'i': 1, '*': 1}, word_list)
+    substitute_hand({'h': 1, 'e': 1, 'l': 2, 'o': 1}, 'l')
     play_game(word_list)
