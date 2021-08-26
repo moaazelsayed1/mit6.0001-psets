@@ -141,7 +141,7 @@ class Message(object):
             if letter not in list(" !@#$%^&*()-_+={}[]|\:;'<>?,./\""):
                 message_text_encrypted.append(shifted[letter])
             else:
-                message_text_encrypted.append(" ")
+                message_text_encrypted.append(letter)
 
         return "".join(message_text_encrypted)
 
