@@ -99,6 +99,35 @@ class Trigger(object):
 # Problem 2
 # TODO: PhraseTrigger
 
+
+class PhraseTrigger(Trigger):
+    def __init__(self, phrase):
+        self.phrase = phrase.lower()
+
+    def is_phrase_in(self, text):
+        text = text.lower()
+
+        for punc in string.punctuation:
+            index = text.find(punc)
+            if index != len(text) - 1 and index != 0:
+                if index != -1 and (text[index - 1] == " " or text[index + 1] == " "):
+                    # print("punc: " + punc + "after: " +
+                    #      text[index + 1] + "before: " + text[index - 1])
+                    text = text.replace(punc, "")
+                elif index > -1:
+                    text = text.replace(punc, " ")
+            else:
+                text = text.replace(punc, "")
+
+        list_text = text.split()
+        text = " ".join(list_text)
+
+        if self.phrase in text:
+            return True
+        else:
+            return False
+
+
 # Problem 3
 # TODO: TitleTrigger
 
