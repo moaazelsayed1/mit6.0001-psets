@@ -152,13 +152,23 @@ class DescriptionTrigger(PhraseTrigger):
 
 
 class TimeTrigger(Trigger):
-    def __init__(self, time):
-        time = datetime.strptime(time, "%d %b %Y %H:%M:%S")
-        time = time.replace(tzinfo=pytz.timezone("EST"))
-        self.time = time
+    def __init__(self, pubdate):
+        pubdate = datetime.strptime(pubdate, "%d %b %Y %H:%M:%S")
+        pubdate = pubdate.replace(tzinfo=pytz.timezone("EST"))
+        self.pubdate = pubdate
+
 # Problem 6
 # TODO: BeforeTrigger and AfterTrigger
 
+
+class BeforeTrigger(TimeTrigger):
+    def evaluate(self, story):
+        return self.pubdate > story.get_pubdate().replace(tzinfo=pytz.timezone("EST"))
+
+
+class AfterTrigger(TimeTrigger):
+    def evaluate(self, story):
+        return self.pubdate < story.get_pubdate().replace(tzinfo=pytz.timezone("EST"))
 
 # COMPOSITE TRIGGERS
 
