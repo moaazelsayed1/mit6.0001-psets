@@ -175,18 +175,45 @@ class AfterTrigger(TimeTrigger):
 # Problem 7
 # TODO: NotTrigger
 
+
+class NotTrigger(Trigger):
+    def __init__(self, T):
+        self.trigger = T
+
+    def evaluate(self, story):
+        return not self.trigger.evaluate(story)
+
 # Problem 8
 # TODO: AndTrigger
+
+
+class AndTrigger(Trigger):
+    def __init__(self, T1, T2):
+        self.triggerf = T1
+        self.triggers = T2
+
+    def evaluate(self, story):
+        return self.triggerf.evaluate(story) and self.triggers.evaluate(story)
+
 
 # Problem 9
 # TODO: OrTrigger
 
+class OrTrigger(Trigger):
+    def __init__(self, T1, T2):
+        self.triggerf = T1
+        self.triggers = T2
+
+    def evaluate(self, story):
+        return self.triggerf.evaluate(story) or self.triggers.evaluate(story)
 
 # ======================
 # Filtering
 # ======================
 
 # Problem 10
+
+
 def filter_stories(stories, triggerlist):
     """
     Takes in a list of NewsStory instances.
