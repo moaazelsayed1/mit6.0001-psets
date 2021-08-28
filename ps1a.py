@@ -1,4 +1,3 @@
-
 def main():
     annual_salary = float(input("Enter your annual salary: "))
     portion_saved = float(

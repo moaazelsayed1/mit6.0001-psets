@@ -3,7 +3,6 @@ def main():
     target = 0.25 * 1000000
     #number_of_months = 36
     steps = 0
-
     # bisection search
     low = 0
     high = 10000
