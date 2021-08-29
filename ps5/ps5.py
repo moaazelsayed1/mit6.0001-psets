@@ -267,7 +267,35 @@ def read_trigger_config(filename):
     # line is the list of lines that you need to parse and for which you need
     # to build triggers
 
-    print(lines)  # for now, print it so you see what it contains!
+    trigger_list = []
+    trigger_dict = {}
+    for line in lines:
+        trigger = line.split(",")
+        if trigger[0] == "ADD":
+            for trig in trigger_list:
+                trigger_list.append(trigger_dict[trig])
+
+        elif trigger[1] == "DESCRIPTION":
+            trigger_dict[trigger[0]] = DescriptionTrigger(trigger[2])
+
+        elif trigger[1] == "TITLE":
+            trigger_dict[trigger[0]] = TitleTrigger(trigger[2])
+
+        elif trigger[1] == "BEFORE":
+            trigger_dict[trigger[0]] = BeforeTrigger(trigger[2])
+
+        elif trigger[1] == "AFTER":
+            trigger_dict[trigger[0]] = AfterTrigger(trigger[2])
+
+        elif trigger[1] == "NOT":
+            trigger_dict[trigger[0]] = NotTrigger(trigger_dict[trigger[2]])
+
+        elif trigger[1] == "AND":
+            trigger_dict[trigger[0]] = AndTrigger(
+                trigger_dict[trigger[2]], trigger_dict[trigger[3]])
+
+    # print(lines)  # for now, print it so you see what it contains!
+    return trigger_list
 
 
 SLEEPTIME = 120  # seconds -- how often we poll
