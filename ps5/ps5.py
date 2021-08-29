@@ -131,6 +131,9 @@ class PhraseTrigger(Trigger):
 # Problem 3
 # TODO: TitleTrigger
 class TitleTrigger(PhraseTrigger):
+    def __init__(self, phrase):
+        PhraseTrigger.__init__(self, phrase)
+
     def evaluate(self, story):
         return self.is_phrase_in(story.get_title())
 
@@ -139,6 +142,9 @@ class TitleTrigger(PhraseTrigger):
 
 
 class DescriptionTrigger(PhraseTrigger):
+    def __init__(self, phrase):
+        PhraseTrigger.__init__(self, phrase)
+
     def evaluate(self, story):
         return self.is_phrase_in(story.get_description())
 
@@ -162,11 +168,17 @@ class TimeTrigger(Trigger):
 
 
 class BeforeTrigger(TimeTrigger):
+    def __init__(self, time):
+        TimeTrigger.__init__(self, time)
+
     def evaluate(self, story):
         return self.pubdate > story.get_pubdate().replace(tzinfo=pytz.timezone("EST"))
 
 
 class AfterTrigger(TimeTrigger):
+    def __init__(self, time):
+        TimeTrigger.__init__(self, time)
+
     def evaluate(self, story):
         return self.pubdate < story.get_pubdate().replace(tzinfo=pytz.timezone("EST"))
 
@@ -223,7 +235,12 @@ def filter_stories(stories, triggerlist):
     # TODO: Problem 10
     # This is a placeholder
     # (we're just returning all the stories, with no filtering)
-    return stories
+    trig_stories = []
+    for trigger in triggerlist:
+        for story in stories:
+            if trigger.evaluate(story):
+                trig_stories.append(story)
+    return trig_stories
 
 
 # ======================
